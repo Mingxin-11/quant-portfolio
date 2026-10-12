@@ -1,0 +1,60 @@
+Table: (225, 4)
+First test month 2018-01 sits at position 120
+Test months: 105
+M = 60 | rows: 60 | from 2013-01 to 2017-12
+M = 120 | rows: 120 | from 2008-01 to 2017-12
+Part A: 1/N through the rolling loop
+M = 60 | weights table: (105, 4)
+   first and last test month: 2018-01 2026-09
+   every row sums to 1: True
+M = 120 | weights table: (105, 4)
+   first and last test month: 2018-01 2026-09
+   every row sums to 1: True
+Part B: probes
+M = 60
+   window ends the month before the test month: True
+   window starts M months before the test month: True
+M = 120
+   window ends the month before the test month: True
+   window starts M months before the test month: True
+Part C: the exact optimiser through the rolling loop
+M = 60 | weights table: (105, 4)
+   no negative weight: True
+   every row sums to 1: True
+   no missing values: True
+   first row equals a direct call on the first window: True
+M = 120 | weights table: (105, 4)
+   no negative weight: True
+   every row sums to 1: True
+   no missing values: True
+   first row equals a direct call on the first window: True
+Part D: exact solver against SLSQP, every window
+SciPy version: 1.18.1
+M = 60 | windows compared: 105
+   largest gap over all windows: 1.7291282922715645e-06
+   test month with the largest gap: 2018-03
+   windows with a gap above 1e-4: 0
+   exact weights change from month to month: True
+   SLSQP weights change from month to month: True
+M = 120 | windows compared: 105
+   largest gap over all windows: 1.385639088802293e-06
+   test month with the largest gap: 2021-03
+   windows with a gap above 1e-4: 0
+   exact weights change from month to month: True
+   SLSQP weights change from month to month: True
+Part E: look-ahead test with the real rule (exact optimiser)
+M = 60
+   original table untouched by the shock: True
+   weights up to and including the shocked month unchanged: True
+   weights for the next month changed: True
+M = 120
+   original table untouched by the shock: True
+   weights up to and including the shocked month unchanged: True
+   weights for the next month changed: True
+Part F: weights times returns, toy table with a known answer
+   months returned: [Period('2000-02', 'M'), Period('2000-03', 'M')]
+   values match the hand calculation: True
+   a one-month-late multiplication does NOT match: True
+Part F: the same function on real 1/N weights (True/False only)
+   one return per test month: True
+   equals the plain average of the four stocks each month: True

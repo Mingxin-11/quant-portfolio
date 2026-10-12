@@ -1,0 +1,81 @@
+True  sharpe_ratio on [0.01, 0.03] is sqrt(2)
+True  monthly_turnover on the toy weights is 1.0
+True  annual_formula_se(0, 0, 0.5, 100) is 0.1 * sqrt(12)
+True  formula_is_wider: True for (-1, 1) against (-0.5, 0.5), False the other way round
+True  105 test months, 2018-01 to 2026-09
+True  M = 60, first test month: return equals weights @ returns by hand
+True  M = 60: weights cover the test months, none missing
+True  M = 60: weights non-negative and add up to 1 every month
+True  M = 60: one return per test month, none missing
+True  M = 120: weights cover the test months, none missing
+True  M = 120: weights non-negative and add up to 1 every month
+True  M = 120: one return per test month, none missing
+True  1/N: weights cover the test months, none missing
+True  1/N: weights non-negative and add up to 1 every month
+True  1/N: one return per test month, none missing
+
+Results: monthly excess returns, 2018-01 to 2026-09, r_f = TB3MS, long-only, rebalanced monthly, no costs
+portfolio   mean (ann.)  vol (ann.)  Sharpe (ann.)  Sharpe (monthly)
+M = 60           0.1387      0.1768         0.7845            0.2265
+M = 120          0.1530      0.1728         0.8855            0.2556
+1/N              0.1389      0.1783         0.7790            0.2249
+
+Optimiser trading and concentration (target weights month to month; drift inside the month ignored)
+M = 60: average monthly turnover 0.131 (a full switch between two stocks = 2.0), average largest weight 0.640
+M = 120: average monthly turnover 0.088 (a full switch between two stocks = 2.0), average largest weight 0.587
+
+M = 60 gap (105 test months)
+  gap                               +0.005  (monthly +0.0016)
+  correlation of the two series     0.796
+  formula SE                        0.221  (monthly 0.0638)
+  formula interval                  [-0.428, +0.439]  (monthly [-0.1235, +0.1266])
+  bootstrap SE                      0.217  (monthly 0.0627)
+  bootstrap interval                [-0.434, +0.413]  (monthly [-0.1253, +0.1193])
+  bootstrap SE / formula SE         0.983
+  wider interval                    formula: [-0.428, +0.439]  (monthly [-0.1235, +0.1266])
+  zero inside wider interval        True
+  smallest detectable gap           0.619  (from the larger SE)
+
+M = 120 gap (105 test months)
+  gap                               +0.106  (monthly +0.0307)
+  correlation of the two series     0.788
+  formula SE                        0.226  (monthly 0.0652)
+  formula interval                  [-0.336, +0.549]  (monthly [-0.0971, +0.1585])
+  bootstrap SE                      0.225  (monthly 0.0648)
+  bootstrap interval                [-0.348, +0.539]  (monthly [-0.1005, +0.1556])
+  bootstrap SE / formula SE         0.994
+  wider interval                    bootstrap: [-0.348, +0.539]  (monthly [-0.1005, +0.1556])
+  zero inside wider interval        True
+  smallest detectable gap           0.633  (from the larger SE)
+
+M = 120 minus M = 60 (105 test months)
+  gap                               +0.101  (monthly +0.0291)
+  correlation of the two series     0.961
+  formula SE                        0.098  (monthly 0.0282)
+  formula interval                  [-0.091, +0.292]  (monthly [-0.0261, +0.0844])
+  bootstrap SE                      0.095  (monthly 0.0276)
+  bootstrap interval                [-0.086, +0.282]  (monthly [-0.0247, +0.0813])
+  bootstrap SE / formula SE         0.977
+  wider interval                    formula: [-0.091, +0.292]  (monthly [-0.0261, +0.0844])
+  zero inside wider interval        True
+  smallest detectable gap           0.274  (from the larger SE)
+
+The lock of 12 October 2026, 13:32 SGT, scored
+M = 60 gap
+  (a) gap is positive               True
+  (b) gap within +/-0.5             True
+  (c) zero inside wider interval    True
+  (d) SDG 0.619 inside 0.36-0.98    True
+M = 120 gap
+  (a) gap is positive               True
+  (b) gap within +/-0.5             True
+  (c) zero inside wider interval    True
+  (d) SDG 0.633 inside 0.36-0.98    True
+M = 120 minus M = 60
+  (a) gap is positive               True
+  (b) gap within +/-0.3             True
+  (c) zero inside wider interval    True
+  (d) SDG 0.274 inside 0.36-0.5     False
+saved figures/week7/first_run_gap_intervals.png
+saved figures/week7/first_run_weights.png
+saved figures/week7/first_run_growth.png
