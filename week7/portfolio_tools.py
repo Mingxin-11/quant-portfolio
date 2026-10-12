@@ -11,18 +11,7 @@ def _neg_sharpe(w, mean_returns, cov_matrix):
     return -port_return / port_vol
 
 
-def weights_sum_to_one(weights):
-    """Constraint helper enforcing portfolio weights sum to 1.0."""
-    return weights.sum() - 1.0
-
-
 # --- Weight Selection Rules & Solvers ---
-
-def unconstrained_weights(mean_array, cov_array):
-    """Unconstrained analytical maximum-Sharpe portfolio weights."""
-    positions = np.linalg.solve(cov_array, mean_array)
-    return positions / positions.sum()
-
 
 def exact_long_only_weights(mean_array, cov_array, show_verdicts=False):
     """Combinatorial exact long-only maximum-Sharpe portfolio weights."""
@@ -144,19 +133,15 @@ def portfolio_returns(weights, returns):
 
 def exact_rule(window):
     """Exact long-only maximum-Sharpe weights for one window (design-log items 2 and 6)."""
-    # a) mean excess return per stock, as a NumPy array
-    mean_returns = window.mean().to_numpy()
-    
-    # b) covariance matrix, as a NumPy array
-    cov_matrix = window.cov().to_numpy()
-    
-    # c) call exact_long_only_weights with a) and b)
+    mean_returns = window.mean().to_numpy()   # average monthly excess return of each stock
+    cov_matrix = window.cov().to_numpy()      # covariance of the stocks' monthly excess returns
+
     weights = exact_long_only_weights(mean_returns, cov_matrix)
-    
-    # d) if it gives back None, stop with a clear error naming the window's last month
+
+    # None means the solver found no single solution, for example when no stock has a positive
+    # mean in the window (design-log item 6): stop with an error that names the window.
     if weights is None:
         last_month = window.index[-1]
         raise ValueError(f"No positive-mean return in window ending {last_month}")
-        
-    # e) return the weights
+
     return weights

@@ -1,8 +1,13 @@
 import pandas as pd
 import numpy as np
-from itertools import combinations
 import scipy
-from portfolio_tools import exact_long_only_weights, slsqp_weights, exact_rule, portfolio_returns
+from portfolio_tools import (
+    exact_long_only_weights, 
+    slsqp_weights, 
+    exact_rule, 
+    portfolio_returns, 
+    rolling_weights
+)
 
 
 EXCESS_FILE = "data/monthly_excess_returns_2008-01_to_2026-09.csv"
@@ -19,7 +24,7 @@ print("First test month", FIRST_TEST_MONTH, "sits at position", first_test_posit
 print("Test months:", number_of_test_months)
 
 for window_length in WINDOW_LENGTHS:
-    # YOUR LINE: create the slice dynamically inside the loop
+    # Extract the historical training window of length M ending the month before the test month
     window = excess_returns.iloc[first_test_position - window_length : first_test_position]
     print("M =", window_length, "| rows:", len(window), "| from", window.index[0], "to", window.index[-1])
 
@@ -27,20 +32,6 @@ def equal_weight_rule(window):
     """1/N: the same weight for every stock, whatever the window says."""
     number_of_stocks = window.shape[1]
     return np.full(number_of_stocks, 1 / number_of_stocks)
-
-
-def rolling_weights(returns, window_length, first_test_position, weight_rule):
-    """Weights for each test month, chosen only from the window_length months before it."""
-    chosen = []
-    test_months = []
-    # YOUR LOOP (see the task below)
-    for position in range(first_test_position, len(returns)):
-        window = returns.iloc[position - window_length : position]
-        weights = weight_rule(window)
-        chosen.append(weights)
-        test_months.append(returns.index[position])
-        
-    return pd.DataFrame(chosen, index=test_months, columns=returns.columns)
 
 
 print("Part A: 1/N through the rolling loop")
@@ -69,48 +60,6 @@ for M in WINDOW_LENGTHS:
     print("M =", M)
     print("   window ends the month before the test month:", np.allclose(last_seen, previous_month))
     print("   window starts M months before the test month:", np.allclose(first_seen, month_M_back))
-
-
-def exact_long_only_weights(mean_array, cov_array, show_verdicts=False):
-    asset_count = len(mean_array)
-    tolerance = 1e-12
-    passing_weights = []
-
-    for subset_size in range(1, asset_count + 1):
-        for free_tuple in combinations(range(asset_count), subset_size):
-            free_assets = list(free_tuple)
-
-            positions = np.zeros(asset_count)
-            positions[free_assets] = np.linalg.solve(
-                cov_array[np.ix_(free_assets, free_assets)],
-                mean_array[free_assets],
-            )
-            multipliers = cov_array @ positions - mean_array
-
-            free_positions_positive = np.all(
-                positions[free_assets] > tolerance
-            )
-            pinned_multipliers_ok = np.all(
-                np.delete(multipliers, free_assets) >= -tolerance
-            )
-
-            if show_verdicts:
-                print(
-                    "free assets",
-                    free_assets,
-                    "| free positions > 0:",
-                    free_positions_positive,
-                    "| pinned multipliers >= 0:",
-                    pinned_multipliers_ok,
-                )
-
-            if free_positions_positive and pinned_multipliers_ok:
-                passing_weights.append(positions / positions.sum())
-
-    if len(passing_weights) == 1:
-        return passing_weights[0]
-    return None
-
 
 
 def slsqp_rule(window):
