@@ -29,7 +29,7 @@ The four scripts below reproduce the printed results from the files in `data/`. 
     python3 week8/post_run_checks.py | diff week8/post_run_checks_reference_2026-10-13.txt -
     python3 week8/dependence_check.py | diff week8/dependence_check_reference_2026-10-13.txt -
 
-`dependence_check.py` simulates thousands of invented histories and can take a few minutes. With other library versions the last printed digits may differ; compare these numbers instead.
+`dependence_check.py` simulates thousands of invented histories and took about 40 seconds on the author's laptop. With other library versions the last printed digits may differ; compare these numbers instead.
 
 | Script | What to expect |
 |---|---|
