@@ -1,0 +1,103 @@
+True  invented world: lag-1 autocorrelation of a long series is about phi (0.2)
+True  invented world: the two series are correlated about as set (0.8)
+True  block positions: 200 rows of 105 months, every month number between 0 and 104
+True  inside a block each month follows the previous one, wrapping round the end
+True  a block as long as the sample only rotates the data: every resample gives the same gap
+True  block length 1 gives the same SE as the ordinary bootstrap (within 10%)
+
+World with phi = 0.0: true gap 0, 2000 invented histories of 105 months.
+Actual spread of the gap across histories (the SE a perfect method would report): 0.215
+method              average SE reported  reported / actual  false alarms
+formula                           0.214              0.995          5.3%
+block length 1                    0.217              1.009          5.9%
+block length 3                    0.215              0.997          6.1%
+block length 6                    0.211              0.979          7.2%
+block length 12                   0.203              0.944          8.8%
+
+World with phi = 0.2: true gap 0, 2000 invented histories of 105 months.
+Actual spread of the gap across histories (the SE a perfect method would report): 0.259
+method              average SE reported  reported / actual  false alarms
+formula                           0.215              0.829         10.0%
+block length 1                    0.218              0.840         10.5%
+block length 3                    0.243              0.939          7.7%
+block length 6                    0.248              0.957          7.5%
+block length 12                   0.242              0.935          9.5%
+
+World with phi = 0.4: true gap 0, 2000 invented histories of 105 months.
+Actual spread of the gap across histories (the SE a perfect method would report): 0.333
+method              average SE reported  reported / actual  false alarms
+formula                           0.217              0.651         19.1%
+block length 1                    0.220              0.660         20.2%
+block length 3                    0.277              0.833         11.5%
+block length 6                    0.297              0.891         10.4%
+block length 12                   0.298              0.895         11.2%
+
+Block length 1 is the ordinary bootstrap. A false alarm is a 95% interval that excludes the true gap, 0.
+A perfect 95% interval gives 5%. With 2,000 histories, read each rate as plus or minus about 1 percentage point.
+
+--- Part B: the real test months ---
+True  Part B: 6 series of 105 test months with 12 lags each, so 72 autocorrelations
+True  autocorrelations: a series alternating +1, -1 gives -0.99 at lag 1 and +0.98 at lag 2 (by hand)
+True  autocorrelations: a long invented series with phi = 0.2 gives about 0.2 at lag 1 and 0.04 at lag 2
+True  dependence factor: exactly 1 at block length 1, and 1.3958 at length 6 for autocorrelations 0.2, 0.04, ... (by hand)
+True  the locked first run is reproduced: formula SE, bootstrap SE and quoted interval of all three gaps
+True  block length 1 on the real months gives the locked bootstrap SE of each gap (within 10%)
+
+105 test months, 2018-01 to 2026-09. Autocorrelations use monthly returns; gaps and SEs are annualised.
+
+Autocorrelations, lags 1 to 12. * marks a value outside the band +/-0.191 (1.96 / sqrt(105)).
+Columns: 60, 120 and 1/N are the strategies' monthly excess returns; a-b is the monthly return of a minus that of b.
+ lag      60      120      1/N   60-1/N  120-1/N   120-60 
+   1  -0.068   -0.028   -0.099   -0.007   -0.019   -0.213*
+   2  -0.061   -0.067   -0.085   -0.077   -0.018   +0.146 
+   3  +0.005   +0.078   +0.137   +0.193*  +0.162   -0.042 
+   4  +0.096   +0.036   -0.143   -0.033   -0.116   +0.106 
+   5  -0.075   -0.079   -0.051   -0.028   -0.009   -0.080 
+   6  -0.181   -0.176   +0.027   -0.125   -0.101   +0.046 
+   7  +0.135   +0.070   +0.071   -0.093   -0.088   +0.006 
+   8  +0.046   +0.004   +0.017   -0.100   -0.144   -0.052 
+   9  -0.113   -0.145   -0.074   -0.059   -0.101   +0.051 
+  10  -0.099   -0.073   -0.057   -0.016   +0.031   -0.111 
+  11  +0.021   +0.017   -0.057   -0.080   -0.094   -0.157 
+  12  +0.136   +0.149   +0.011   -0.069   -0.028   +0.026 
+Outside the band: 2 of 72. Independent months would put about 3.6 outside.
+The six series are closely related (the last three are differences of the first three): treat that count as a rough guide.
+
+What the autocorrelations imply for the SE of an AVERAGE of each series (factor 1 = no change).
+The Sharpe gap also depends on the standard deviations, so this is a guide, not a prediction of the gap SEs.
+                  block length 6                  block length 3         
+series     variance        SE eff. months  variance        SE eff. months
+60            0.850     0.922       123.5     0.869     0.932       120.8
+120           0.940     0.969       111.7     0.918     0.958       114.4
+1/N           0.747     0.864       140.6     0.811     0.901       129.4
+60-1/N        1.048     1.024       100.2     0.939     0.969       111.8
+120-1/N       1.027     1.013       102.3     0.963     0.981       109.0
+120-60        0.841     0.917       124.8     0.813     0.902       129.2
+variance = 1 + 2 x sum of (1 - lag/L) x autocorrelation over lags below L; SE = its square root; eff. months = 105 / variance.
+With no dependence at all, the length-6 variance would still wobble by about +/-0.24 (one standard deviation).
+With no dependence at all, the length-3 variance would still wobble by about +/-0.15 (one standard deviation).
+
+M = 60 minus 1/N: observed gap +0.005
+  locked first run:  formula SE 0.221 | bootstrap SE 0.217 | quoted interval [-0.428, +0.439]
+  block length 6:    SE 0.217 (0.980 x the locked formula SE) | interval [-0.428, +0.414] | zero inside: True
+  block length 3:    SE 0.205 (0.926 x the locked formula SE) | interval [-0.411, +0.397] | zero inside: True
+
+M = 120 minus 1/N: observed gap +0.106
+  locked first run:  formula SE 0.226 | bootstrap SE 0.225 | quoted interval [-0.348, +0.539]
+  block length 6:    SE 0.230 (1.016 x the locked formula SE) | interval [-0.361, +0.546] | zero inside: True
+  block length 3:    SE 0.220 (0.972 x the locked formula SE) | interval [-0.340, +0.535] | zero inside: True
+
+M = 120 minus M = 60: observed gap +0.101
+  locked first run:  formula SE 0.098 | bootstrap SE 0.095 | quoted interval [-0.091, +0.292]
+  block length 6:    SE 0.073 (0.743 x the locked formula SE) | interval [-0.040, +0.243] | zero inside: True
+  block length 3:    SE 0.078 (0.799 x the locked formula SE) | interval [-0.044, +0.263] | zero inside: True
+
+Block intervals are percentile intervals from 5,000 circular-block resamples (seed 42), not studentised.
+They are a sensitivity check beside the locked intervals, not a replacement for them.
+
+Numbers the locked predictions refer to (the scoring rules were fixed before this run):
+1. Autocorrelations outside the band: 2 of 72
+2. Lag-1 autocorrelation of the 1/N series: -0.099
+3. Block SE at length 6 / locked formula SE: M = 60 minus 1/N 0.980; M = 120 minus 1/N 1.016; M = 120 minus M = 60 0.743
+4. Block intervals (of 6) that exclude zero: 0
+5. Largest block SE for M = 120 minus M = 60 over lengths [6, 3]: 0.078 (locked rule threshold: 0.11)
