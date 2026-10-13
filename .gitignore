@@ -10,8 +10,14 @@ venv/
 .venv/
 .vscode/
 
-# Third-party data (raw data files)
-data/
+# Third-party data: raw Yahoo price files are never committed.
+# The three monthly tables, the FRED T-bill file and their checksums are.
+data/*
+!data/monthly_returns_2008-01_to_2026-09.csv
+!data/monthly_rf_2008-01_to_2026-09.csv
+!data/monthly_excess_returns_2008-01_to_2026-09.csv
+!data/tbill_TB3MS_downloaded_2026-10-08.csv
+!data/SHA256SUMS.txt
 
 # Generated figures (rebuilt automatically by scripts)
 figures/

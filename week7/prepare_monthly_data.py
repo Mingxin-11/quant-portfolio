@@ -4,7 +4,7 @@ JUMP_SIZE = 0.4
 OLD_FILE = "data/prices.csv"
 NEW_FILE = "data/prices_rolling.csv"
 CHECK_MONTH = "2020-03"
-TBILL_FILE = "data/tbill_TB3MS_downloaded_YYYY-MM-DD.csv"
+TBILL_FILE = "data/tbill_TB3MS_downloaded_2026-10-08.csv"
 FIRST_MONTH = "2008-01"
 LAST_MONTH = "2026-09"
 
