@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from portfolio_tools import sharpe_gap_se  
+from portfolio_tools import sharpe_gap_se
 
 TEST_MONTHS = 105                          # January 2018 to September 2026
 FIRST_TEST_MONTH = pd.Period("2018-01")
@@ -45,7 +45,6 @@ print("Part C: the third route, d'Sigma d")
 cov_matrix = planning_returns.cov().to_numpy()
 third_route_agrees = []
 for position, ticker in enumerate(planning_returns.columns):
-    # YOUR LINES: weight_difference, variance_from_weights
     n_assets = len(planning_returns.columns)
     weight_difference = np.zeros(n_assets)
     weight_difference[position] = 1.0
@@ -87,7 +86,6 @@ for ticker in planning_returns.columns:
     stock_returns = planning_returns[ticker]
     stock_sharpe = stock_returns.mean() / stock_returns.std()
     correlation = stock_returns.corr(equal_weight_returns)
-    # YOUR LINES: se_105, se_72, first_term_105, full_over_first, ratio
     se_105 = np.sqrt(12) * sharpe_gap_se(stock_sharpe, equal_sharpe, correlation, TEST_MONTHS)
     se_72 = np.sqrt(12) * sharpe_gap_se(stock_sharpe, equal_sharpe, correlation, SHORT_TEST_MONTHS)
     # First term only (simplified approximation): sqrt(12 * 2 * (1 - correlation) / months)

@@ -160,19 +160,19 @@ Z_95 = norm.ppf(0.975)
 
 def sharpe_ratio(returns):
     # Monthly Sharpe ratio of a Series of monthly excess returns
-    monthly_sharpe = returns.mean() / returns.std()  
+    monthly_sharpe = returns.mean() / returns.std()
     return monthly_sharpe
 
 
 def monthly_turnover(weights):
     # Average over months of the sum of absolute weight changes since the previous month
-    average_turnover = weights.diff().dropna().abs().sum(axis=1).mean()  
+    average_turnover = weights.diff().dropna().abs().sum(axis=1).mean()
     return average_turnover
 
 
 def annual_formula_se(sharpe_a, sharpe_b, correlation, months):
     # Annualised formula standard error of the gap between two MONTHLY Sharpe ratios
-    standard_error =sharpe_gap_se(sharpe_a, sharpe_b, correlation, months) * ANNUALISING_FACTOR 
+    standard_error = sharpe_gap_se(sharpe_a, sharpe_b, correlation, months) * ANNUALISING_FACTOR
     return standard_error
 
 

@@ -28,7 +28,6 @@ truths = [
 
 
 def true_sharpe(weights, true_means, true_cov):
-    # YOUR LINE 1: return the Sharpe ratio of these weights under these means and this covariance matrix (Week 5's w'mu and w'Sigma w)
     return weights @ true_means / np.sqrt(weights @ true_cov @ weights)
 
 
@@ -38,7 +37,6 @@ def simulate_estimated_optimiser(true_means, true_cov, window_length, replicatio
     largest_weights = []
     fallbacks = 0
     for _ in range(replications):
-        # YOUR LINE 2: sample = window_length months of returns drawn from the truth (as in Step 3, but four stocks)
         sample = rng.multivariate_normal(true_means, true_cov, size=window_length)
         sample_means = sample.mean(axis=0)
         sample_cov = np.cov(sample, rowvar=False)
@@ -46,9 +44,7 @@ def simulate_estimated_optimiser(true_means, true_cov, window_length, replicatio
         if estimated_weights is None:
             estimated_weights = equal_weights
             fallbacks += 1
-        # YOUR LINE 3: add the TRUE Sharpe ratio of estimated_weights to true_sharpes
         true_sharpes.append(true_sharpe(estimated_weights, true_means, true_cov))
-        # YOUR LINE 4: add the IN-SAMPLE Sharpe ratio of estimated_weights (judged by the sample's own means and covariance) to in_sample_sharpes
         in_sample_sharpes.append(true_sharpe(estimated_weights, sample_means, sample_cov))
         largest_weights.append(estimated_weights.max())
     return np.array(true_sharpes), np.array(in_sample_sharpes), np.array(largest_weights), fallbacks

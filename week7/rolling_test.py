@@ -2,10 +2,10 @@ import pandas as pd
 import numpy as np
 import scipy
 from portfolio_tools import (
-    exact_long_only_weights, 
-    slsqp_weights, 
-    exact_rule, 
-    portfolio_returns, 
+    exact_long_only_weights,
+    slsqp_weights,
+    exact_rule,
+    portfolio_returns,
     rolling_weights
 )
 
