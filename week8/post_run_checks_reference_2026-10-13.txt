@@ -1,0 +1,79 @@
+True  105 test months
+True  M = 60: annualised Sharpe ratio reproduces the first run (0.7845)
+True  M = 120: annualised Sharpe ratio reproduces the first run (0.8855)
+True  1/N: annualised Sharpe ratio reproduces the first run (0.779)
+True  sub-period A: 72 months, ending 2023-12
+True  sub-period B: 33 months, 2024-01 to 2026-09
+
+POST-RUN check 1: sub-periods. Same weights as the first run; only the months measured are split.
+A = 2018-01 to 2023-12 (72 months); B = 2024-01 to 2026-09 (33 months). Monthly excess returns, annualised.
+Intervals: formula and paired bootstrap (5,000 resamples, seed 42); the wider is quoted.
+
+Sharpe ratio                 all         A         B
+M = 60                    0.7845    0.9620    0.3547
+M = 120                   0.8855    1.0712    0.5142
+1/N                       0.7790    0.7377    0.9067
+
+Gap = first minus second. SDG = smallest detectable gap, from the larger SE. B-A = (gap in B) minus (gap in A).
+comparison            period      gap  formula SE  boot. SE     SDG   wider 95% interval  zero inside
+M = 60 gap            all      +0.005       0.221     0.217   0.619   [-0.428, +0.439]    True
+M = 60 gap            A        +0.224       0.284     0.273   0.796   [-0.333, +0.781]    True
+M = 60 gap            B        -0.552       0.287     0.296   0.829   [-1.147, +0.003]    True
+M = 60 gap            B-A      -0.776       0.404     0.409   1.147   [-1.571, +0.018]    True
+
+M = 120 gap           all      +0.106       0.226     0.225   0.633   [-0.348, +0.539]    True
+M = 120 gap           A        +0.334       0.277     0.266   0.777   [-0.210, +0.877]    True
+M = 120 gap           B        -0.392       0.349     0.377   1.056   [-1.170, +0.301]    True
+M = 120 gap           B-A      -0.726       0.446     0.466   1.306   [-1.662, +0.184]    True
+
+M = 120 minus M = 60  all      +0.101       0.098     0.095   0.274   [-0.091, +0.292]    True
+M = 120 minus M = 60  A        +0.109       0.084     0.085   0.237   [-0.044, +0.288]    True
+M = 120 minus M = 60  B        +0.160       0.227     0.237   0.663   [-0.320, +0.599]    True
+M = 120 minus M = 60  B-A      +0.050       0.242     0.250   0.701   [-0.457, +0.529]    True
+
+True  raw file has the same months and stocks as the excess file
+True  raw returns minus risk-free equals the excess returns, every month and stock
+
+POST-RUN check 2: r_f = 0. Raw monthly returns, weights re-estimated on raw returns, same 105 test months.
+Average risk-free rate over the test months: 0.0266 a year
+
+Sharpe ratio, annualised    first run   r_f = 0   change  vol (r_f = 0)
+M = 60                         0.7845    0.9353  +0.1508         0.1729
+M = 120                        0.8855    1.0497  +0.1642         0.1684
+1/N                            0.7790    0.9277  +0.1487         0.1784
+
+comparison            basis       gap  formula SE  boot. SE     SDG   wider 95% interval  zero inside
+M = 60 gap            first    +0.005       0.221     0.217   0.619   [-0.428, +0.439]    True
+M = 60 gap            rf = 0   +0.008       0.220     0.214   0.616   [-0.423, +0.439]    True
+                      change   +0.002
+
+M = 120 gap           first    +0.106       0.226     0.225   0.633   [-0.348, +0.539]    True
+M = 120 gap           rf = 0   +0.122       0.223     0.220   0.624   [-0.314, +0.558]    True
+                      change   +0.016
+
+M = 120 minus M = 60  first    +0.101       0.098     0.095   0.274   [-0.091, +0.292]    True
+M = 120 minus M = 60  rf = 0   +0.114       0.095     0.092   0.265   [-0.071, +0.300]    True
+                      change   +0.013
+
+Weights re-estimated on raw returns against the first run's weights:
+  M = 60: average monthly distance 0.077   (0 = identical weights, 2 = a complete switch)
+  M = 120: average monthly distance 0.054   (0 = identical weights, 2 = a complete switch)
+True  buy-and-hold weights start at 1/N and add up to 1 every month
+True  buy-and-hold final wealth equals the average of the four stocks' final wealth
+
+POST-RUN check 3: buy-and-hold 1/N. Equal weights in 2018-01, no trading afterwards; weights drift with raw returns.
+Sharpe ratio, annualised: rebalanced 1/N 0.7790, buy-and-hold 0.7886, change +0.0096
+Buy-and-hold weights in the last test month: JPM 0.276, BAC 0.168, PG 0.131, MSFT 0.426
+
+B&H = buy-and-hold. Gap = first minus second.
+comparison            period      gap  formula SE  boot. SE     SDG   wider 95% interval  zero inside
+M = 60 minus B&H      all      -0.004       0.155     0.152   0.435   [-0.309, +0.300]    True
+M = 120 minus B&H     all      +0.097       0.151     0.151   0.424   [-0.206, +0.392]    True
+B&H minus 1/N         all      +0.010       0.089     0.088   0.249   [-0.165, +0.184]    True
+True  monthly_trades on the toy case: one month, trade |0.5 - 0.55| + |0.5 - 0.45| = 0.10
+
+POST-RUN check 4: average monthly turnover = sum of absolute trades (a complete switch between two stocks = 2.0)
+            target to target  with drift
+M = 60                0.1308      0.1151
+M = 120               0.0882      0.0751
+1/N                   0.0000      0.0366
