@@ -16,11 +16,3 @@ data/
 # Generated figures (rebuilt automatically by scripts)
 figures/
 
-# Temporarily excluded because they contain hard-coded local paths; 
-# they will return in Lesson 8.6 once fixed.
-week2/get_jpm_data.py
-week2/read_jpm_data.py
-week3/plot_returns.py
-week3/annualise.py
-week3/volatility.py
-week3/log_returns.py

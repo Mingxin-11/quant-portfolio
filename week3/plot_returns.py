@@ -1,0 +1,20 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv("data/jpm.csv",skiprows=[1,2])
+print(df.columns)
+df["Price"] = pd. to_datetime(df["Price"])
+df = df. set_index("Price")
+df. index. name = "Date"
+print(df. dtypes)
+print(df. index)
+df["Daily Return"] = df["Adj Close"].pct_change()
+plt.plot(df. index, df["Adj Close"],color="navy")
+plt.xlabel("Date")
+plt.ylabel("Adj Close Price")
+plt.title("JPM Adj Close Price (5years)")
+plt.show()
+plt.plot(df.index, df["Daily Return"],color="teal")
+plt.title("JPM Daily Returns (5 Years)")
+plt.xlabel("Date")
+plt.ylabel("Daily Return")
+plt.show()
