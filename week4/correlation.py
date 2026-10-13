@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import seaborn as sns
 import matplotlib.pyplot as plt
 
 prices = pd.read_csv("data/prices.csv", parse_dates=["Date"], index_col="Date")
