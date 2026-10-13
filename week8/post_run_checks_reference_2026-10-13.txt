@@ -77,3 +77,5 @@ POST-RUN check 4: average monthly turnover = sum of absolute trades (a complete 
 M = 60                0.1308      0.1151
 M = 120               0.0882      0.0751
 1/N                   0.0000      0.0366
+
+saved figures/week8/post_run_gaps.png
